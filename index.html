@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Developer Workflow Builder</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="app">
+      <svg width="0" height="0" style="position:absolute;">
+        <defs>
+          <marker id="arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b" />
+          </marker>
+          <marker id="arrowhead-hover" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#a855f7" />
+          </marker>
+        </defs>
+      </svg>
+      <header class="toolbar">
+        <div class="logo">
+          <i data-lucide="git-merge"></i>
+          <span>Workflow Builder</span>
+        </div>
+        <div class="project-selector">
+          <select id="workflow-select"></select>
+          <button id="new-workflow-btn" title="New Workflow"><i data-lucide="plus"></i></button>
+          <button id="rename-workflow-btn" title="Rename Workflow"><i data-lucide="edit-2"></i></button>
+          <button id="delete-workflow-btn" class="danger" title="Delete Workflow"><i data-lucide="trash"></i></button>
+        </div>
+        <div class="actions">
+          <button id="add-node-btn" class="primary"><i data-lucide="message-square"></i> Text Node</button>
+          <button id="add-action-btn" class="primary action-btn"><i data-lucide="zap"></i> Action</button>
+          <div class="divider"></div>
+          <button id="undo-btn" title="Undo"><i data-lucide="undo"></i></button>
+          <button id="redo-btn" title="Redo"><i data-lucide="redo"></i></button>
+          <div class="divider"></div>
+          <button id="zoom-in-btn" title="Zoom In"><i data-lucide="zoom-in"></i></button>
+          <button id="zoom-out-btn" title="Zoom Out"><i data-lucide="zoom-out"></i></button>
+          <button id="reset-view-btn" title="Reset View"><i data-lucide="focus"></i></button>
+          <div class="divider"></div>
+          <button id="download-btn" title="Download Image"><i data-lucide="download"></i> Export</button>
+          <button id="clear-btn" class="danger" title="Clear All"><i data-lucide="trash-2"></i></button>
+        </div>
+      </header>
+      
+      <main id="workspace">
+        <div id="canvas-container">
+          <div id="canvas">
+            <svg id="connections"></svg>
+            <div id="nodes-container"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+    
+    <template id="node-template">
+      <div class="workflow-node" data-type="text" data-branch="standard" style="left: 0px; top: 0px; width: 250px; height: 160px;">
+        <div class="node-header">
+          <div class="node-drag-handle"><i data-lucide="grip-horizontal"></i></div>
+          <input type="text" class="node-label-input" placeholder="Enter label..." />
+          <div class="node-actions">
+            <button class="node-copy-btn" title="Copy"><i data-lucide="copy"></i></button>
+            <button class="node-delete-btn" title="Delete"><i data-lucide="x"></i></button>
+          </div>
+        </div>
+        <div class="node-body">
+          <textarea class="node-text" placeholder="Enter text message here..."></textarea>
+          <div class="node-branch-select">
+            <select class="branch-select">
+              <option value="standard">Standard Branch</option>
+              <option value="yes_no">Yes / No Branches</option>
+              <option value="if_else">If / Else Branches</option>
+            </select>
+          </div>
+        </div>
+        <div class="node-port port-in" data-port="in"></div>
+        <div class="node-port port-out" data-port="out"></div>
+        
+        <div class="node-port port-out-yes" data-port="out-yes">
+          <span class="port-label">Yes</span>
+        </div>
+        <div class="node-port port-out-no" data-port="out-no">
+          <span class="port-label">No</span>
+        </div>
+        
+        <div class="node-port port-out-if" data-port="out-if">
+          <span class="port-label">If</span>
+        </div>
+        <div class="node-port port-out-else" data-port="out-else">
+          <span class="port-label">Else</span>
+        </div>
+        
+        <div class="node-resizer"></div>
+      </div>
+    </template>
+
+    <template id="action-node-template">
+      <div class="workflow-node action-node" data-type="action" style="left: 0px; top: 0px; width: 200px; height: 60px;">
+        <div class="node-drag-handle"><i data-lucide="grip-vertical"></i></div>
+        <div class="node-body">
+          <textarea class="node-text action-text" placeholder="Action Step"></textarea>
+        </div>
+        <div class="node-actions">
+          <button class="node-copy-btn" title="Copy"><i data-lucide="copy"></i></button>
+          <button class="node-delete-btn" title="Delete"><i data-lucide="x"></i></button>
+        </div>
+        <div class="node-port port-in" data-port="in"></div>
+        <div class="node-port port-out" data-port="out"></div>
+        <div class="node-resizer"></div>
+      </div>
+    </template>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
